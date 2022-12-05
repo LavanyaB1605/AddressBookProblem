@@ -2,11 +2,11 @@ package org.example;
 
 public class Person {
         static int id = AddressBook.people.size();
-        private String name;
-        private String surname;
-        private String phoneNumber;
-        private String email;
-        private String address;
+        private static String name;
+        private static String surname;
+        private static String phoneNumber;
+        private static String email;
+        private static String address;
 
         Person(String name, String surname, String phoneNumber, String email, String address) {
             this.name = name;
@@ -17,23 +17,23 @@ public class Person {
             id++;
         }
 
-        String getName() {
+        static String getName() {
             return name;
         }
 
-        String getSurname() {
+        static String getSurname() {
             return surname;
         }
 
-        String getPhoneNumber() {
+        static String getPhoneNumber() {
             return phoneNumber;
         }
 
-        String getEmail() {
+        static String getEmail() {
             return email;
         }
 
-        String getAddress() {
+        static String getAddress() {
             return address;
         }
 

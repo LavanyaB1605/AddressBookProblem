@@ -8,11 +8,13 @@ public class AddressBook {
     private static Scanner in = new Scanner(System.in);
         private static File file = new File("src/main/resources/PersonDetails.txt");
         static List<Person> people = new ArrayList<Person>();
+    public static ArrayList<Person> addressBook = new ArrayList<Person>();
 
         public static void main(String[] args) throws IOException {
             System.out.println("Welcome to AddressBook");
             readPeopleFromFile();
-            showMainMenu();
+            String bookName = null;
+            showMainMenu(null);
         }
         private static void findPerson() throws IOException {
             System.out.println("1. Find FirstName");
@@ -33,7 +35,8 @@ public class AddressBook {
                 }
             } while (!choice.equals("1") && !choice.equals("2"));
             System.out.println();
-            showMainMenu();
+            String bookName = null;
+            showMainMenu(null);
         }
 
         private static void findBySurname() {
@@ -85,7 +88,8 @@ public class AddressBook {
             String id = null;
             System.out.println("Added: " + id + person);
             System.out.println();
-            showMainMenu();
+            String bookName = null;
+            showMainMenu(null);
         }
 
         private static void addToFile(Person person) {
@@ -112,8 +116,53 @@ public class AddressBook {
             }
             return false;
         }
+    //Read or Write the Address Book with Persons Contact into a File using csv file
+    public void readAndWriteCsvFile() throws IOException {
+        System.out.println("Please select the book");
+        String bookName = in.nextLine();
 
-        private static void showMainMenu() throws IOException {
+        showMainMenu(bookName);
+
+        List<String> rows = new ArrayList<>();
+        for (Person person : addressBook) {
+
+            rows.add(Person.getName() + "," + Person.getSurname() + "," + Person.getPhoneNumber() + "," +
+                    Person.getEmail() + "," + Person.getAddress());
+
+        }
+
+        FileWriter csvWriter = new FileWriter("src/" + bookName + ".csv");
+        csvWriter.append("FirstName");
+        csvWriter.append(",");
+        csvWriter.append("LastName");
+        csvWriter.append(",");
+        csvWriter.append("Address");
+        csvWriter.append(",");
+        csvWriter.append(",");
+        csvWriter.append("MobileNumber");
+        csvWriter.append("\n");
+
+        for (String rowData : rows) {
+            csvWriter.append(rowData);
+            csvWriter.append("\n");
+        }
+        System.out.println("Written");
+        csvWriter.flush();
+        csvWriter.close();
+
+        //To read data from file
+        System.out.println("Read below data from file");
+        Scanner sc = new Scanner(new File("src/" + bookName + ".csv"));
+        sc.useDelimiter(" ");   //sets the delimiter pattern
+        while (sc.hasNext())  //returns a boolean value
+        {
+            System.out.println(sc.next());  //find and returns the next complete token from this scanner
+        }
+        sc.close();  //closes the scanner
+
+    }
+
+        private static void showMainMenu(String bookName) throws IOException {
             System.out.println("1. Add person");
             System.out.println("2. Search person");
             System.out.println("3. Show Contacts");
@@ -132,7 +181,7 @@ public class AddressBook {
                     case "3":
                         System.out.println(people);
                         System.out.println();
-                        showMainMenu();
+                        showMainMenu(bookName);
                         break;
                     case "4":
                         System.exit(0);
